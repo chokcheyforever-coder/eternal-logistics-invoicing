@@ -386,9 +386,9 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
           )}
           <button
             type="submit"
-            className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-xl text-xs font-bold bg-[#0B2545] hover:bg-blue-900 text-white transition shadow-sm"
+            className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition shadow-md hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Save className="w-4 h-4" />
+            <Save className="w-4 h-4 stroke-[2.5]" />
             <span>រក្សាទុកព័ត៌មានក្រុមហ៊ុន / Save Changes</span>
           </button>
         </div>

@@ -109,13 +109,18 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({
     <div className="space-y-5">
       {/* Header and Controls */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <div>
-          <h1 className="text-xl font-black text-slate-900 font-khmer flex items-center gap-2">
-            <span>📋</span> បញ្ជីវិក្កយបត្រ / Invoice Directory
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            គ្រប់គ្រងការចេញវិក្កយបត្រ តាមដានការទូទាត់ និងដឹកជញ្ជូនចិន-កម្ពុជា
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-[#0B2545] text-amber-400 font-black shadow-md">
+            <span className="text-xl">📋</span>
+          </div>
+          <div>
+            <h1 className="text-xl font-black text-slate-900 font-khmer flex items-center gap-2">
+              បញ្ជីវិក្កយបត្រ / Invoice Directory
+            </h1>
+            <p className="text-xs text-slate-500 mt-0.5">
+              គ្រប់គ្រងការចេញវិក្កយបត្រ តាមដានការទូទាត់ និងដឹកជញ្ជូនចិន-កម្ពុជា
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2.5 w-full sm:w-auto">
@@ -129,9 +134,9 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({
 
           <button
             onClick={onNewInvoice}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition shadow-md hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 stroke-[3]" />
             <span>+ ចេញវិក្កយបត្រថ្មី / New Invoice</span>
           </button>
         </div>
@@ -198,7 +203,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-100 text-slate-700 text-xs font-bold border-b border-slate-200">
+            <thead className="bg-[#0B2545] text-white text-xs font-bold font-khmer tracking-wide">
               <tr>
                 <th className="py-3 px-3">លេខវិក្កយបត្រ (Invoice №)</th>
                 <th className="py-3 px-3">កាលបរិច្ឆេទ (Date)</th>

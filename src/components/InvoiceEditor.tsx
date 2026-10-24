@@ -406,7 +406,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
               handleTriggerPreview();
               setTimeout(() => window.print(), 300);
             }}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-400 hover:bg-amber-300 text-slate-950 transition shadow-sm font-black"
           >
             <Printer className="w-4 h-4" />
             <span>បោះពុម្ព / Print</span>
@@ -415,9 +415,9 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
           <button
             type="button"
             onClick={handleSaveInvoice}
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#0B2545] hover:bg-blue-900 text-white transition shadow-sm"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition shadow-md hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Save className="w-4 h-4" />
+            <Save className="w-4 h-4 stroke-[2.5]" />
             <span>រក្សាទុក / Save Invoice</span>
           </button>
         </div>
@@ -601,19 +601,19 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
       </div>
 
       {/* ================= 2. QUICK ADD CARGO BAR (FAST, EASY DATA ENTRY) ================= */}
-      {/* Soft, clean, easy-on-the-eyes design for fast daily entry */}
-      <div className="bg-slate-50/90 border border-slate-200/90 text-slate-800 p-5 rounded-2xl shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
+      {/* Rich Logistics Navy Blue & Warm Amber with high-contrast readable inputs */}
+      <div className="bg-gradient-to-r from-[#071E3D] via-[#0B2545] to-[#134B70] text-white p-5 rounded-2xl shadow-lg space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 pb-3">
           <div className="flex items-center gap-2.5">
-            <span className="p-1.5 rounded-xl bg-blue-100 text-blue-800 font-bold">
-              <Barcode className="w-4 h-4" />
+            <span className="p-2 rounded-xl bg-amber-400 text-slate-950 font-black shadow">
+              <Barcode className="w-5 h-5" />
             </span>
             <div>
-              <h2 className="text-sm font-bold font-khmer text-slate-900 tracking-wide">
+              <h2 className="text-sm sm:text-base font-bold font-khmer text-amber-400 tracking-wide">
                 បញ្ចូលទំនិញរហ័ស (Quick Add Cargo Entry Bar)
               </h2>
-              <span className="text-[11px] text-slate-500 hidden sm:inline">
-                Scan or type tracking number, enter dimensions, and click "+ Add Item"
+              <span className="text-[11px] text-sky-200 hidden sm:inline">
+                Scan barcode or type tracking number, enter dimensions, and click "+ Add Item"
               </span>
             </div>
           </div>
@@ -623,8 +623,8 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
             onClick={() => setUseDimensionsCalculator(!useDimensionsCalculator)}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
               useDimensionsCalculator 
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
             }`}
           >
             <Calculator className="w-3.5 h-3.5" />
@@ -637,7 +637,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
             {/* Tracking No */}
             <div className="lg:col-span-2 space-y-1">
-              <label className="text-[11px] font-semibold text-slate-600 block">
+              <label className="text-[11px] font-semibold text-sky-200 block">
                 លេខដឹកជញ្ជូន (Tracking No.)
               </label>
               <input
@@ -645,13 +645,13 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 value={quickItem.trackingNo}
                 onChange={(e) => setQuickItem({ ...quickItem, trackingNo: e.target.value })}
                 placeholder="Scan / Type Tracking No..."
-                className="w-full bg-white text-slate-900 font-mono font-bold p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="w-full bg-white text-slate-900 font-mono font-bold p-2.5 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
               />
             </div>
 
             {/* Item Name */}
             <div className="lg:col-span-2 space-y-1">
-              <label className="text-[11px] font-semibold text-slate-600 block">
+              <label className="text-[11px] font-semibold text-sky-200 block">
                 ឈ្មោះទំនិញ (Item Description)
               </label>
               <input
@@ -659,13 +659,13 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 value={quickItem.itemName}
                 onChange={(e) => setQuickItem({ ...quickItem, itemName: e.target.value })}
                 placeholder="e.g. សម្លៀកបំពាក់ (Clothes)"
-                className="w-full bg-white text-slate-900 font-khmer p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="w-full bg-white text-slate-900 font-khmer p-2.5 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
               />
             </div>
 
             {/* Packages Qty */}
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold text-slate-600 block">
+              <label className="text-[11px] font-semibold text-sky-200 block">
                 ចំនួនកេស (Qty)
               </label>
               <input
@@ -673,13 +673,13 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 min="1"
                 value={quickItem.quantity}
                 onChange={(e) => setQuickItem({ ...quickItem, quantity: Number(e.target.value) || 1 })}
-                className="w-full bg-white text-slate-900 font-mono font-bold text-center p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="w-full bg-white text-slate-900 font-mono font-bold text-center p-2.5 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
               />
             </div>
 
             {/* CBM per carton */}
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold text-slate-600 block">
+              <label className="text-[11px] font-semibold text-sky-200 block">
                 CBM/កេស (m³)
               </label>
               <input
@@ -687,13 +687,13 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 step="0.001"
                 value={quickItem.cbm}
                 onChange={(e) => setQuickItem({ ...quickItem, cbm: parseFloat(e.target.value) || 0 })}
-                className="w-full bg-white text-slate-900 font-mono font-bold text-center p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="w-full bg-white text-slate-900 font-mono font-bold text-center p-2.5 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
               />
             </div>
 
             {/* Unit Price */}
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold text-slate-600 block">
+              <label className="text-[11px] font-semibold text-sky-200 block">
                 តម្លៃឯកតា ($)
               </label>
               <input
@@ -701,16 +701,16 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 step="0.5"
                 value={quickItem.unitPrice}
                 onChange={(e) => setQuickItem({ ...quickItem, unitPrice: parseFloat(e.target.value) || 0 })}
-                className="w-full bg-amber-50 text-amber-950 font-mono font-bold text-center p-2.5 rounded-xl border border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm"
+                className="w-full bg-amber-400 text-slate-950 font-mono font-black text-center p-2.5 rounded-xl border border-amber-300 focus:outline-none focus:ring-2 focus:ring-white shadow-sm"
               />
             </div>
           </div>
 
           {/* Optional: L x W x H Dimension Inputs */}
           {useDimensionsCalculator && (
-            <div className="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200/80 flex flex-wrap items-center gap-3 text-xs text-slate-700">
-              <span className="font-bold text-blue-900 flex items-center gap-1.5">
-                <Box className="w-3.5 h-3.5 text-blue-600" /> វាស់ទំហំកេស (Box Dimensions in Centimeters):
+            <div className="p-3.5 bg-white/10 rounded-xl border border-white/20 flex flex-wrap items-center gap-3 text-xs text-white">
+              <span className="font-bold text-amber-300 flex items-center gap-1.5">
+                <Box className="w-3.5 h-3.5" /> វាស់ទំហំកេស (Box Dimensions in Centimeters):
               </span>
               <div className="flex items-center gap-2 font-mono">
                 <input
@@ -718,26 +718,26 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                   placeholder="Length cm"
                   value={quickItem.lengthCm}
                   onChange={(e) => handleDimensionChange('lengthCm', e.target.value)}
-                  className="w-24 bg-white text-slate-900 p-2 rounded-lg text-center font-bold border border-slate-200 focus:outline-none shadow-sm"
+                  className="w-24 bg-white text-slate-900 p-2 rounded-lg text-center font-bold border-0 focus:outline-none shadow-sm"
                 />
-                <span className="text-slate-400">×</span>
+                <span className="text-white/70">×</span>
                 <input
                   type="number"
                   placeholder="Width cm"
                   value={quickItem.widthCm}
                   onChange={(e) => handleDimensionChange('widthCm', e.target.value)}
-                  className="w-24 bg-white text-slate-900 p-2 rounded-lg text-center font-bold border border-slate-200 focus:outline-none shadow-sm"
+                  className="w-24 bg-white text-slate-900 p-2 rounded-lg text-center font-bold border-0 focus:outline-none shadow-sm"
                 />
-                <span className="text-slate-400">×</span>
+                <span className="text-white/70">×</span>
                 <input
                   type="number"
                   placeholder="Height cm"
                   value={quickItem.heightCm}
                   onChange={(e) => handleDimensionChange('heightCm', e.target.value)}
-                  className="w-24 bg-white text-slate-900 p-2 rounded-lg text-center font-bold border border-slate-200 focus:outline-none shadow-sm"
+                  className="w-24 bg-white text-slate-900 p-2 rounded-lg text-center font-bold border-0 focus:outline-none shadow-sm"
                 />
-                <span className="text-slate-500 font-sans ml-1">➔ Computed CBM:</span>
-                <strong className="text-blue-900 text-sm font-bold bg-white px-2.5 py-1 rounded-lg border border-blue-200 shadow-sm">
+                <span className="text-sky-200 font-sans ml-1">➔ Computed CBM:</span>
+                <strong className="text-slate-950 bg-amber-400 text-sm font-black px-2.5 py-1 rounded-lg shadow-sm">
                   {quickItem.cbm} m³
                 </strong>
               </div>
@@ -747,11 +747,11 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
           {/* Quick Submit Button & Category Select */}
           <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-[11px] font-semibold text-slate-600">Category:</span>
+              <span className="text-[11px] font-semibold text-sky-200">Category:</span>
               <select
                 value={quickItem.itemType}
                 onChange={(e) => setQuickItem({ ...quickItem, itemType: e.target.value })}
-                className="bg-white text-slate-800 font-khmer text-xs py-2 px-3 rounded-xl border border-slate-200 focus:outline-none shadow-sm"
+                className="bg-white/10 text-white font-khmer text-xs py-2 px-3 rounded-xl border border-white/20 focus:outline-none shadow-sm"
               >
                 {GOODS_TYPES.map((t) => (
                   <option key={t} value={t} className="text-slate-900">
@@ -760,11 +760,11 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 ))}
               </select>
 
-              <span className="text-[11px] font-semibold text-slate-600 ml-2">Warehouse:</span>
+              <span className="text-[11px] font-semibold text-sky-200 ml-2">Warehouse:</span>
               <select
                 value={quickItem.chinaWarehouse}
                 onChange={(e) => setQuickItem({ ...quickItem, chinaWarehouse: e.target.value })}
-                className="bg-white text-slate-800 text-xs py-2 px-3 rounded-xl border border-slate-200 focus:outline-none shadow-sm"
+                className="bg-white/10 text-white text-xs py-2 px-3 rounded-xl border border-white/20 focus:outline-none shadow-sm"
               >
                 {CHINA_WAREHOUSES.map((wh) => (
                   <option key={wh} value={wh} className="text-slate-900">
@@ -773,18 +773,18 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 ))}
               </select>
 
-              <span className="text-[11px] font-semibold text-slate-600 ml-2">Weight (kg):</span>
+              <span className="text-[11px] font-semibold text-sky-200 ml-2">Weight (kg):</span>
               <input
                 type="number"
                 value={quickItem.weight}
                 onChange={(e) => setQuickItem({ ...quickItem, weight: parseFloat(e.target.value) || 0 })}
-                className="w-18 bg-white text-slate-900 text-center font-mono text-xs py-2 px-2.5 rounded-xl border border-slate-200 focus:outline-none shadow-sm"
+                className="w-18 bg-white/10 text-white text-center font-mono text-xs py-2 px-2.5 rounded-xl border border-white/20 focus:outline-none shadow-sm"
               />
             </div>
 
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm flex items-center gap-1.5"
+              className="px-6 py-2.5 rounded-xl text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 transition shadow-lg flex items-center gap-1.5"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>+ បន្ថែមចូលតារាង (Add Item)</span>
@@ -837,23 +837,32 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
           </div>
         </div>
 
-        {/* Spacious Table with Comfortable Padding */}
+        {/* Spacious Table with Comfortable Padding & Iconic Logistics Colors */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-100 text-slate-700 font-bold text-xs border-b border-slate-200">
-                <th className="py-3 px-3 text-center w-10">№</th>
-                <th className="py-3 px-3 w-32">លេខដឹកជញ្ជូន (Tracking)</th>
-                <th className="py-3 px-3 min-w-[180px]">ឈ្មោះទំនិញ (Description)</th>
-                <th className="py-3 px-3 w-36">ប្រភេទទំនិញ (Category)</th>
-                <th className="py-3 px-2 text-center w-20">កេស (Qty)</th>
-                <th className="py-3 px-2 text-center w-24">CBM/កេស</th>
-                <th className="py-3 px-2 text-center w-20">ទម្ងន់(kg)</th>
-                <th className="py-3 px-2 text-center w-24 font-bold text-blue-900 bg-blue-50/70">CBMសរុប</th>
-                <th className="py-3 px-2 text-center w-24 font-bold text-amber-900 bg-amber-50/80">តម្លៃឯកតា</th>
-                <th className="py-3 px-3 text-right w-28 font-bold text-emerald-900 bg-emerald-50/80">ថ្លៃដឹក($)</th>
-                <th className="py-3 px-2 text-center w-24">ឃ្លាំងចិន</th>
-                <th className="py-3 px-2 text-center w-16">Actions</th>
+              {/* Category split header - Deep Navy for Goods, Golden Amber for Pricing */}
+              <tr className="text-white font-khmer text-xs">
+                <th colSpan={7} className="bg-[#0B2545] py-2 px-3 text-center border-r border-blue-900 font-bold tracking-wide">
+                  📋 ព័ត៌មានទំនិញ (CARGO & GOODS INFORMATION)
+                </th>
+                <th colSpan={5} className="bg-[#F59E0B] text-slate-950 py-2 px-3 text-center font-black tracking-wide">
+                  💰 ព័ត៌មានតម្លៃ (PRICING & FREIGHT CHARGES)
+                </th>
+              </tr>
+              <tr className="bg-slate-100 text-slate-800 font-bold text-xs border-b border-slate-300">
+                <th className="py-2.5 px-3 text-center w-10">№</th>
+                <th className="py-2.5 px-3 w-36">លេខដឹកជញ្ជូន (Tracking)</th>
+                <th className="py-2.5 px-3 min-w-[180px]">ឈ្មោះទំនិញ (Description)</th>
+                <th className="py-2.5 px-3 w-36">ប្រភេទទំនិញ (Category)</th>
+                <th className="py-2.5 px-2 text-center w-20">កេស (Qty)</th>
+                <th className="py-2.5 px-2 text-center w-24">CBM/កេស</th>
+                <th className="py-2.5 px-2 text-center w-20">ទម្ងន់(kg)</th>
+                <th className="py-2.5 px-2 text-center w-24 font-bold text-blue-900 bg-blue-50 border-x border-blue-100">CBMសរុប</th>
+                <th className="py-2.5 px-2 text-center w-24 font-bold text-amber-950 bg-amber-100/70 border-r border-amber-200">តម្លៃឯកតា</th>
+                <th className="py-2.5 px-3 text-right w-28 font-black text-emerald-900 bg-emerald-100/70 border-r border-emerald-200">ថ្លៃដឹក($)</th>
+                <th className="py-2.5 px-2 text-center w-24 bg-amber-50">ឃ្លាំងចិន</th>
+                <th className="py-2.5 px-2 text-center w-16">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
@@ -1005,21 +1014,21 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
         {/* ================= 4. SUMMARY & CALCULATION TOTALS BAR ================= */}
         <div className="p-5 bg-slate-50 border-t border-slate-200">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5 text-xs">
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-              <span className="text-slate-400 font-bold block uppercase text-[10px]">TOTAL ITEMS</span>
+            <div className="bg-white p-4 rounded-xl border border-slate-200 border-t-4 border-t-indigo-600 shadow-sm">
+              <span className="text-slate-500 font-bold block uppercase text-[10px]">TOTAL ITEMS (កេស)</span>
               <span className="text-2xl font-black font-mono text-slate-900">{totalItem} pkgs</span>
             </div>
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-              <span className="text-slate-400 font-bold block uppercase text-[10px]">TOTAL VOLUME</span>
+            <div className="bg-white p-4 rounded-xl border border-slate-200 border-t-4 border-t-blue-600 shadow-sm">
+              <span className="text-slate-500 font-bold block uppercase text-[10px]">TOTAL VOLUME (CBM)</span>
               <span className="text-2xl font-black font-mono text-blue-900">{totalCbm.toFixed(3)} m³</span>
             </div>
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-              <span className="text-slate-400 font-bold block uppercase text-[10px]">TOTAL WEIGHT</span>
-              <span className="text-2xl font-black font-mono text-slate-800">{totalWeight} kg</span>
+            <div className="bg-white p-4 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 shadow-sm">
+              <span className="text-slate-500 font-bold block uppercase text-[10px]">TOTAL WEIGHT (ទម្ងន់)</span>
+              <span className="text-2xl font-black font-mono text-amber-700">{totalWeight} kg</span>
             </div>
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-              <span className="text-slate-400 font-bold block uppercase text-[10px]">FREIGHT SUBTOTAL</span>
-              <span className="text-2xl font-black font-mono text-slate-900">${subTotal.toFixed(2)}</span>
+            <div className="bg-white p-4 rounded-xl border border-slate-200 border-t-4 border-t-emerald-600 shadow-sm">
+              <span className="text-slate-500 font-bold block uppercase text-[10px]">FREIGHT SUBTOTAL (ថ្លៃដឹក)</span>
+              <span className="text-2xl font-black font-mono text-emerald-700">${subTotal.toFixed(2)}</span>
             </div>
           </div>
 
@@ -1036,7 +1045,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 value={discount || ''}
                 onChange={(e) => setDiscount(Number(e.target.value) || 0)}
                 placeholder="0.00"
-                className="w-36 text-xs font-mono font-bold text-red-600 border border-slate-300 rounded-xl p-2.5 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-36 text-xs font-mono font-bold text-red-600 border border-slate-300 rounded-xl p-2.5 bg-white focus:ring-2 focus:ring-amber-400 focus:outline-none"
               />
             </div>
 
@@ -1051,29 +1060,29 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
                 value={otherCharges || ''}
                 onChange={(e) => setOtherCharges(Number(e.target.value) || 0)}
                 placeholder="0.00"
-                className="w-28 text-xs font-mono font-bold text-slate-900 border border-slate-300 rounded-xl p-2.5 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-28 text-xs font-mono font-bold text-slate-900 border border-slate-300 rounded-xl p-2.5 bg-white focus:ring-2 focus:ring-amber-400 focus:outline-none"
               />
               <input
                 type="text"
                 value={otherChargesDesc}
                 onChange={(e) => setOtherChargesDesc(e.target.value)}
                 placeholder="Reason (e.g. Local Delivery PP)"
-                className="flex-1 text-xs font-khmer border border-slate-300 rounded-xl p-2.5 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="flex-1 text-xs font-khmer border border-slate-300 rounded-xl p-2.5 bg-white focus:ring-2 focus:ring-amber-400 focus:outline-none"
               />
             </div>
           </div>
 
-          {/* Grand Total Bar */}
-          <div className="mt-5 bg-slate-900 text-white p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md border border-slate-800">
+          {/* Grand Total Bar - Rich Logistics Navy & Luminous Golden Amber */}
+          <div className="mt-5 bg-gradient-to-r from-[#071E3D] via-[#0B2545] to-[#134B70] text-white p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl border border-blue-900/80">
             <div>
-              <span className="text-xs uppercase font-bold tracking-wider text-amber-400 block font-sans">
+              <span className="text-xs uppercase font-black tracking-wider text-amber-400 block font-sans">
                 GRAND TOTAL / សរុបទឹកប្រាក់ត្រូវទូទាត់
               </span>
-              <span className="text-xs text-slate-300 font-khmer">
-                គណនី ABA ទទួលប្រាក់: <strong className="text-white">{activeCompany.bankAccountName}</strong> ({activeCompany.bankAccountNumber})
+              <span className="text-xs text-sky-200 font-khmer">
+                គណនី ABA ទទួលប្រាក់: <strong className="text-white font-bold">{activeCompany.bankAccountName}</strong> ({activeCompany.bankAccountNumber})
               </span>
             </div>
-            <div className="text-3xl sm:text-4xl font-black font-mono text-amber-400">
+            <div className="text-3xl sm:text-4xl font-black font-mono text-amber-400 drop-shadow">
               ${grandTotal.toFixed(2)}
             </div>
           </div>

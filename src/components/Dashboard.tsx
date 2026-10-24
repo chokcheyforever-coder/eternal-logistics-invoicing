@@ -46,18 +46,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Banner - Sleek, modern, and easy on the eyes */}
-      <div className="relative overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 text-white p-6 sm:p-7 shadow-sm">
+      {/* Top Banner - Rich Logistics Navy & Warm Amber */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#071E3D] via-[#0B2545] to-[#134B70] border border-blue-900/80 text-white p-6 sm:p-7 shadow-lg">
         <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 font-mono">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/40 font-mono">
               <span>🇨🇳 ⇄ 🇰🇭</span>
               <span>Cross-Border Logistics Operations (China ➔ Cambodia)</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight font-khmer text-white">
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight font-khmer text-amber-400">
               ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ និងទំនិញដឹកជញ្ជូន
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
+            <p className="text-xs sm:text-sm text-sky-200 max-w-xl">
               Automated logistics billing, ABA KHQR instant payment generation, CBM freight calculations, and China warehouse container tracking.
             </p>
           </div>
@@ -65,7 +65,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={onNewInvoice}
-              className="px-5 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>+ បង្កើតវិក្កយបត្រថ្មី (New Invoice)</span>
@@ -73,25 +73,25 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
             <button
               onClick={() => onSelectTab('containers')}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center gap-1.5 shadow"
             >
-              <Truck className="w-4 h-4 text-blue-400" />
+              <Truck className="w-4 h-4 text-amber-400" />
               <span>ទូកុងតឺន័រ ({activeContainersCount})</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
+      {/* KPI Cards Grid with Vibrant Brand Accents */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Invoiced */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 border-t-4 border-t-blue-600 shadow-sm hover:shadow-md transition space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Total Invoiced (ចំណូលសរុប)
             </span>
-            <div className="p-2.5 rounded-xl bg-blue-50 text-blue-700">
-              <DollarSign className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-blue-100 text-blue-700 shadow-sm">
+              <DollarSign className="w-5 h-5 stroke-[2.5]" />
             </div>
           </div>
           <div>
@@ -99,63 +99,63 @@ export const Dashboard: React.FC<DashboardProps> = ({
               ${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-              <span className="font-semibold text-blue-900">{invoices.length}</span> invoices issued
+              <span className="font-bold text-blue-900 bg-blue-50 px-2 py-0.5 rounded-full">{invoices.length}</span> invoices issued
             </p>
           </div>
         </div>
 
         {/* Payment Settlement */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 border-t-4 border-t-emerald-600 shadow-sm hover:shadow-md transition space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Collected vs Pending
             </span>
-            <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-700">
-              <CheckCircle className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-700 shadow-sm">
+              <CheckCircle className="w-5 h-5 stroke-[2.5]" />
             </div>
           </div>
           <div>
             <div className="text-2xl font-black font-mono text-emerald-700">
               ${totalPaid.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
-            <p className="text-xs text-red-500 font-semibold mt-1">
+            <p className="text-xs text-red-600 font-bold mt-1 bg-red-50 inline-block px-2 py-0.5 rounded-full">
               Pending: ${totalUnpaid.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
         </div>
 
         {/* Shipped Volume (CBM) */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 border-t-4 border-t-amber-500 shadow-sm hover:shadow-md transition space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Shipped Volume (CBM)
             </span>
-            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-700">
-              <Box className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-amber-100 text-amber-800 shadow-sm">
+              <Box className="w-5 h-5 stroke-[2.5]" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black font-mono text-amber-600">
+            <div className="text-2xl font-black font-mono text-amber-700">
               {totalCbm.toFixed(3)} m³
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              Average CBM rate: <strong className="text-slate-800">$145 - $165</strong>
+            <p className="text-xs text-slate-600 mt-1">
+              Average CBM rate: <strong className="text-amber-900">$145 - $165</strong>
             </p>
           </div>
         </div>
 
         {/* Total Packages */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 border-t-4 border-t-indigo-600 shadow-sm hover:shadow-md transition space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Total Packages (កេស/កញ្ចប់)
             </span>
-            <div className="p-2.5 rounded-xl bg-purple-50 text-purple-700">
-              <Package className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-indigo-100 text-indigo-700 shadow-sm">
+              <Package className="w-5 h-5 stroke-[2.5]" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black font-mono text-purple-900">
+            <div className="text-2xl font-black font-mono text-indigo-900">
               {totalItems.toLocaleString()} pkgs
             </div>
             <p className="text-xs text-slate-500 mt-1">
@@ -168,11 +168,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* Main Grid: Recent Invoices & Quick Operations */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Invoices Table (2 columns wide) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b pb-3">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm space-y-0">
+          <div className="p-5 flex items-center justify-between border-b border-slate-200">
             <div>
               <h2 className="text-base font-bold text-slate-900 font-khmer flex items-center gap-2">
-                <span>⚡</span> វិក្កយបត្រថ្មីៗ / Recent Invoices
+                <span className="p-1 rounded-lg bg-amber-100 text-amber-800 font-bold">⚡</span>
+                <span>វិក្កយបត្រថ្មីៗ / Recent Invoices</span>
               </h2>
               <p className="text-xs text-slate-500">
                 Latest customer shipments ready for billing & collection
@@ -180,7 +181,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
             <button
               onClick={onViewAllInvoices}
-              className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1"
+              className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 transition"
             >
               <span>View All ({invoices.length})</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -189,7 +190,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-600 font-khmer text-[11px]">
+              <thead className="bg-[#0B2545] text-white font-khmer text-xs font-bold">
                 <tr>
                   <th className="py-2.5 px-3">លេខវិក្កយបត្រ</th>
                   <th className="py-2.5 px-3">អតិថិជន</th>

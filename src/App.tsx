@@ -224,25 +224,25 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
-      {/* Top Main Navigation Bar - Modern, clean, sleek */}
-      <header className="no-print bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-sm">
+    <div className="min-h-screen flex flex-col bg-slate-100/70 font-sans">
+      {/* Top Main Navigation Bar - Rich Logistics Navy & Warm Amber */}
+      <header className="no-print bg-gradient-to-r from-[#071E3D] via-[#0B2545] to-[#134B70] text-white border-b border-blue-900/80 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* Logo & System Brand */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
-            <div className="w-9 h-9 rounded-xl bg-blue-600 text-white font-black flex items-center justify-center text-sm shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black flex items-center justify-center text-sm shadow-md ring-2 ring-amber-300/40">
               EL
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold tracking-wide text-sm sm:text-base text-white">
+                <span className="font-extrabold tracking-wide text-sm sm:text-base text-white">
                   ENTERNAL LOGISTICS
                 </span>
-                <span className="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700 font-mono">
+                <span className="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-2 py-0.5 rounded-full border border-amber-400/40 font-mono hidden sm:inline-block">
                   CHINA ➔ CAMBODIA
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 font-khmer">
+              <p className="text-[10px] text-sky-200 font-khmer">
                 ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ និងទំនិញដឹកជញ្ជូន
               </p>
             </div>
@@ -262,18 +262,20 @@ export const App: React.FC = () => {
                     }
                     setActiveTab(item.id);
                   }}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs transition shadow-sm ${
                     item.highlight
-                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-sm font-bold'
+                      ? 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black shadow-md hover:scale-[1.02] active:scale-[0.98]'
                       : isActive
-                      ? 'bg-slate-800 text-white border border-slate-700 font-bold'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-white/20 text-white border border-white/30 font-bold backdrop-blur-sm'
+                      : 'text-sky-100 hover:text-white hover:bg-white/10 font-semibold'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span className="font-khmer">{item.label.split(' / ')[0]}</span>
                   {item.count !== undefined && !item.highlight && (
-                    <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-800 text-slate-300 border border-slate-700 font-mono">
+                    <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                      isActive ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-white/15 text-sky-200'
+                    }`}>
                       {item.count}
                     </span>
                   )}
@@ -284,10 +286,10 @@ export const App: React.FC = () => {
             {/* Lock Button */}
             <button
               onClick={handleLock}
-              className="ml-2 flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-red-400 hover:bg-slate-800 border border-slate-800 transition"
+              className="ml-2 flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-sky-200 hover:text-white hover:bg-white/10 border border-white/15 transition"
               title="Lock / Logout"
             >
-              <Lock className="w-3.5 h-3.5" />
+              <Lock className="w-3.5 h-3.5 text-amber-400" />
               <span>Lock</span>
             </button>
           </nav>
@@ -296,7 +298,7 @@ export const App: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-slate-300 hover:text-white"
+              className="p-2 text-sky-200 hover:text-white"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
