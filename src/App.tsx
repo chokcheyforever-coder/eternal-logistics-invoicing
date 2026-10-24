@@ -341,6 +341,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'new-invoice' && (
           <InvoiceEditor
+            key={editingInvoice ? editingInvoice.id : 'new-invoice-fresh'}
             initialInvoice={editingInvoice}
             companies={companies}
             customers={customers}

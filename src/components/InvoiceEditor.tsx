@@ -89,7 +89,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
     initialInvoice?.shipment.transportation || 'LAND'
   );
   const [cabinetNo, setCabinetNo] = useState(
-    initialInvoice?.shipment.cabinetNo || 'CAB-2026-GZ-8891'
+    initialInvoice?.shipment.cabinetNo || ''
   );
   const [origin, setOrigin] = useState(
     initialInvoice?.shipment.origin || 'Guangzhou (ក្វាងចូវ)'
@@ -101,29 +101,29 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
     initialInvoice?.calculationBasis || 'CBM'
   );
 
-  // Line items state
+  // Line items state - Blank for new invoice
   const [items, setItems] = useState<InvoiceItem[]>(
     initialInvoice?.items || [
       {
         id: 'item-' + Date.now(),
         no: 1,
-        warehouseInboundNo: 'GZ-2410-01',
-        trackingNo: 'SF1428987162981',
-        itemName: 'សម្លៀកបំពាក់នារី (Women Dresses)',
+        warehouseInboundNo: '',
+        trackingNo: '',
+        itemName: '',
         itemType: 'ទំនិញទូទៅ (General Goods)',
-        quantity: 10,
-        cbm: 0.12,
-        totalWeight: 120,
-        totalQuantity: 300,
-        totalCbm: 1.2,
-        unitPrice: 145,
-        shippingCost: 174,
+        quantity: 0,
+        cbm: 0,
+        totalWeight: 0,
+        totalQuantity: 0,
+        totalCbm: 0,
+        unitPrice: 0,
+        shippingCost: 0,
         chinaWarehouse: 'Guangzhou'
       }
     ]
   );
 
-  // Quick Add Item Bar State (Makes entry super easy!)
+  // Quick Add Item Bar State - Blank for new invoice
   const [quickItem, setQuickItem] = useState({
     trackingNo: '',
     itemName: '',
@@ -132,30 +132,30 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
     lengthCm: '',
     widthCm: '',
     heightCm: '',
-    cbm: 0.1,
-    weight: 10,
-    unitPrice: 145,
+    cbm: 0,
+    weight: 0,
+    unitPrice: 0,
     chinaWarehouse: 'Guangzhou'
   });
   const [useDimensionsCalculator, setUseDimensionsCalculator] = useState(false);
 
-  // Adjustments & Payment
+  // Adjustments & Payment - Blank for new invoice
   const [discount, setDiscount] = useState<number>(initialInvoice?.discount || 0);
   const [otherCharges, setOtherCharges] = useState<number>(initialInvoice?.otherCharges || 0);
   const [otherChargesDesc, setOtherChargesDesc] = useState<string>(
-    initialInvoice?.otherChargesDescription || 'ថ្លៃដឹកជញ្ជូនដល់ផ្ទះ (Delivery)'
+    initialInvoice?.otherChargesDescription || ''
   );
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>(
     initialInvoice?.payment.status || 'UNPAID'
   );
 
-  const activeCustomer = customers.find(c => c.id === selectedCustomerId) || customers[0] || {
-    id: 'temp',
-    customerId: 'EL-0000',
-    name: 'General Customer',
+  const activeCustomer = customers.find(c => c.id === selectedCustomerId) || {
+    id: '',
+    customerId: '',
+    name: '',
     phone: '',
-    address: 'Phnom Penh, Cambodia',
-    destination: 'Phnom Penh'
+    address: '',
+    destination: 'Phnom Penh, Cambodia'
   };
 
   const activeCompany = companies.find(c => c.id === companyId) || companies[0];
@@ -453,6 +453,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
               }}
               className="w-full text-xs font-bold border border-slate-300 rounded-xl p-2.5 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
+              <option value="">-- សូមជ្រើសរើសអតិថិជន / Select Customer --</option>
               {customers.map((c) => (
                 <option key={c.id} value={c.id}>
                   [{c.customerId}] {c.name} ({c.phone})
