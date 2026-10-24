@@ -37,14 +37,14 @@ export const PinLockScreen: React.FC<PinLockScreenProps> = ({ correctPin, onUnlo
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#071E3D] via-[#0B2545] to-[#134B70] flex items-center justify-center p-4">
-      <div className="max-w-sm w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 text-center space-y-6">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <div className="max-w-sm w-full bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 sm:p-8 text-center space-y-6">
         {/* Company Header */}
         <div className="space-y-2">
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-[#0B2545] text-amber-400 flex items-center justify-center shadow-lg border border-amber-400/30">
-            <Lock className="w-8 h-8 text-amber-400" />
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm border border-blue-100">
+            <Lock className="w-7 h-7" />
           </div>
-          <h1 className="text-xl font-black text-slate-900 tracking-wider">
+          <h1 className="text-xl font-bold text-slate-900 tracking-wide">
             ENTERNAL LOGISTICS
           </h1>
           <p className="text-xs text-slate-500 font-khmer">
@@ -58,9 +58,9 @@ export const PinLockScreen: React.FC<PinLockScreenProps> = ({ correctPin, onUnlo
             {[0, 1, 2, 3].map((index) => (
               <div
                 key={index}
-                className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
+                className={`w-3.5 h-3.5 rounded-full border-2 transition-all duration-200 ${
                   pin.length > index
-                    ? 'bg-[#0B2545] border-[#0B2545] scale-110 shadow'
+                    ? 'bg-blue-600 border-blue-600 scale-110 shadow-sm'
                     : 'border-slate-300 bg-white'
                 } ${error ? 'border-red-500 bg-red-100 animate-shake' : ''}`}
               />
@@ -122,7 +122,7 @@ export const PinLockScreen: React.FC<PinLockScreenProps> = ({ correctPin, onUnlo
             </button>
             <button
               type="submit"
-              className="py-3 text-xs font-black rounded-xl bg-[#0B2545] hover:bg-blue-900 active:scale-95 text-amber-400 transition flex items-center justify-center"
+              className="py-3 text-xs font-black rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white transition flex items-center justify-center shadow-sm"
             >
               <ArrowRight className="w-5 h-5" />
             </button>

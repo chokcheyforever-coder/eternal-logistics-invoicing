@@ -224,32 +224,32 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-100 font-sans">
-      {/* Top Main Navigation Bar */}
-      <header className="no-print bg-[#0B2545] text-white border-b border-blue-950 sticky top-0 z-30 shadow-md">
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
+      {/* Top Main Navigation Bar - Modern, clean, sleek */}
+      <header className="no-print bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* Logo & System Brand */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
-            <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 font-black flex items-center justify-center text-lg shadow">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 text-white font-black flex items-center justify-center text-sm shadow-sm">
               EL
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold tracking-wide text-sm sm:text-base text-white">
+                <span className="font-bold tracking-wide text-sm sm:text-base text-white">
                   ENTERNAL LOGISTICS
                 </span>
-                <span className="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-400/40 font-mono">
+                <span className="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700 font-mono">
                   CHINA ➔ CAMBODIA
                 </span>
               </div>
-              <p className="text-[10px] text-sky-200 font-khmer">
+              <p className="text-[10px] text-slate-400 font-khmer">
                 ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ និងទំនិញដឹកជញ្ជូន
               </p>
             </div>
           </div>
 
           {/* Desktop Nav Items */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1.5">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -262,18 +262,18 @@ export const App: React.FC = () => {
                     }
                     setActiveTab(item.id);
                   }}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition ${
                     item.highlight
-                      ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-sm'
+                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-sm font-bold'
                       : isActive
-                      ? 'bg-white/15 text-white'
-                      : 'text-slate-300 hover:text-white hover:bg-white/10'
+                      ? 'bg-slate-800 text-white border border-slate-700 font-bold'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span className="font-khmer">{item.label.split(' / ')[0]}</span>
                   {item.count !== undefined && !item.highlight && (
-                    <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-white/20 font-mono">
+                    <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-800 text-slate-300 border border-slate-700 font-mono">
                       {item.count}
                     </span>
                   )}
@@ -284,7 +284,7 @@ export const App: React.FC = () => {
             {/* Lock Button */}
             <button
               onClick={handleLock}
-              className="ml-2 flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-bold text-red-300 hover:text-white hover:bg-red-500/20 border border-red-500/30 transition"
+              className="ml-2 flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-red-400 hover:bg-slate-800 border border-slate-800 transition"
               title="Lock / Logout"
             >
               <Lock className="w-3.5 h-3.5" />

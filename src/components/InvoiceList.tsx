@@ -129,7 +129,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({
 
           <button
             onClick={onNewInvoice}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#0B2545] hover:bg-blue-900 text-white transition shadow-sm"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span>+ ចេញវិក្កយបត្រថ្មី / New Invoice</span>
@@ -198,7 +198,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#0B2545] text-white text-[11px] font-khmer">
+            <thead className="bg-slate-100 text-slate-700 text-xs font-bold border-b border-slate-200">
               <tr>
                 <th className="py-3 px-3">លេខវិក្កយបត្រ (Invoice №)</th>
                 <th className="py-3 px-3">កាលបរិច្ឆេទ (Date)</th>

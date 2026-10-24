@@ -46,18 +46,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#071E3D] via-[#0B2545] to-[#134B70] text-white p-6 sm:p-8 shadow-lg">
+      {/* Top Banner - Sleek, modern, and easy on the eyes */}
+      <div className="relative overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 text-white p-6 sm:p-7 shadow-sm">
         <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-amber-400 text-xs font-bold border border-white/15">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 font-mono">
               <span>🇨🇳 ⇄ 🇰🇭</span>
               <span>Cross-Border Logistics Operations (China ➔ Cambodia)</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight font-khmer">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight font-khmer text-white">
               ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ និងទំនិញដឹកជញ្ជូន
             </h1>
-            <p className="text-sm text-sky-200 max-w-xl">
+            <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
               Automated logistics billing, ABA KHQR instant payment generation, CBM freight calculations, and China warehouse container tracking.
             </p>
           </div>
@@ -65,7 +65,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={onNewInvoice}
-              className="px-5 py-3 rounded-xl text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 transition shadow-lg flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm flex items-center gap-2"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>+ បង្កើតវិក្កយបត្រថ្មី (New Invoice)</span>
@@ -73,9 +73,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
             <button
               onClick={() => onSelectTab('containers')}
-              className="px-4 py-3 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center gap-1.5"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5"
             >
-              <Truck className="w-4 h-4" />
+              <Truck className="w-4 h-4 text-blue-400" />
               <span>ទូកុងតឺន័រ ({activeContainersCount})</span>
             </button>
           </div>
