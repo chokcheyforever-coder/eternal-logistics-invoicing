@@ -65,6 +65,8 @@ export interface CompanyProfile {
   bankAccountName: string;
   bankAccountNumber: string;
   qrPayload?: string;
+  qrImageUrl?: string;
+  qrMode?: 'PHOTO' | 'DYNAMIC';
   notes: string[];
 }
 

@@ -37,7 +37,19 @@ export const App: React.FC = () => {
   // Local storage state initialization
   const [companies, setCompanies] = useState<CompanyProfile[]>(() => {
     const saved = localStorage.getItem('eternal_companies');
-    return saved ? JSON.parse(saved) : COMPANY_PROFILES;
+    if (saved) {
+      try {
+        const parsed: CompanyProfile[] = JSON.parse(saved);
+        return parsed.map((c) => ({
+          ...c,
+          qrImageUrl: c.qrImageUrl || (c.id === 'eternal-logistics' ? './qr_eternal_logistics.png' : './qr_a2m_express.png'),
+          qrMode: c.qrMode || 'PHOTO'
+        }));
+      } catch (e) {
+        return COMPANY_PROFILES;
+      }
+    }
+    return COMPANY_PROFILES;
   });
 
   const [customers, setCustomers] = useState<Customer[]>(() => {

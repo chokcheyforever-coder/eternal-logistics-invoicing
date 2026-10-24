@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { CompanyProfile } from '../types';
-import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive, KeyRound } from 'lucide-react';
+import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive, KeyRound, Camera, RotateCcw, Image as ImageIcon } from 'lucide-react';
 
 interface CompanySettingsProps {
   companies: CompanyProfile[];
@@ -26,9 +26,39 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
   const [pinInput, setPinInput] = useState(currentPin);
   const [pinSaved, setPinSaved] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const qrFileInputRef = useRef<HTMLInputElement>(null);
 
   const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
   const [form, setForm] = useState<CompanyProfile>(activeCompany);
+
+  const handleQrPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Photo is too large! Please choose an image smaller than 5MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      setForm((prev) => ({
+        ...prev,
+        qrImageUrl: dataUrl,
+        qrMode: 'PHOTO'
+      }));
+    };
+    reader.readAsDataURL(file);
+    if (qrFileInputRef.current) qrFileInputRef.current.value = '';
+  };
+
+  const handleResetQrDefault = () => {
+    const defaultUrl = form.id === 'eternal-logistics' ? './qr_eternal_logistics.png' : './qr_a2m_express.png';
+    setForm((prev) => ({
+      ...prev,
+      qrImageUrl: defaultUrl,
+      qrMode: 'PHOTO'
+    }));
+  };
 
   const handleSelectCompany = (id: string) => {
     setActiveCompanyId(id);
@@ -161,44 +191,156 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
           </div>
         </div>
 
-        {/* Banking & ABA Scan-to-Pay QR Info */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <h2 className="text-sm font-bold text-slate-900 font-khmer flex items-center gap-2 border-b pb-2">
-            <QrCode className="w-4 h-4 text-amber-500" />
-            ការទូទាត់ ABA PAY & KHQR / Bank Details
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                ABA Account Name (ឈ្មោះគណនី)
-              </label>
-              <input
-                type="text"
-                required
-                value={form.bankAccountName}
-                onChange={(e) => setForm({ ...form, bankAccountName: e.target.value })}
-                className="w-full text-xs font-bold border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                ABA Account Number / Phone (លេខគណនី)
-              </label>
-              <input
-                type="text"
-                required
-                value={form.bankAccountNumber}
-                onChange={(e) => setForm({ ...form, bankAccountNumber: e.target.value })}
-                className="w-full text-xs font-mono font-bold border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
+        {/* Banking & ABA Scan-to-Pay QR Info & Photo Upload */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+          <div className="flex items-center justify-between border-b pb-3">
+            <h2 className="text-sm font-bold text-slate-900 font-khmer flex items-center gap-2">
+              <QrCode className="w-4 h-4 text-amber-500" />
+              <span>ការទូទាត់ ABA PAY & KHQR / Bank Details & QR Photo</span>
+            </h2>
+            <span className="text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+              ABA PAY & BAKONG
+            </span>
           </div>
 
-          <p className="text-[11px] text-slate-500">
-            QR code dynamically renders on printable invoices so customers can scan with any Bakong / ABA app to complete payment.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left 2 Cols: Bank Info & QR Mode Selection */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    ABA Account Name (ឈ្មោះគណនី)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={form.bankAccountName}
+                    onChange={(e) => setForm({ ...form, bankAccountName: e.target.value })}
+                    className="w-full text-xs font-bold border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-amber-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    ABA Account Number / Phone (លេខគណនី)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={form.bankAccountNumber}
+                    onChange={(e) => setForm({ ...form, bankAccountNumber: e.target.value })}
+                    className="w-full text-xs font-mono font-bold border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-amber-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* QR Code Display Mode */}
+              <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                <label className="block text-xs font-bold text-slate-800 font-khmer">
+                  ទម្រង់បង្ហាញ QR Code លើវិក្កយបត្រ (QR Display Mode on Invoice):
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <label className={`p-2.5 rounded-lg border cursor-pointer flex items-center gap-2 transition ${
+                    (form.qrMode || 'PHOTO') === 'PHOTO'
+                      ? 'bg-amber-50 border-amber-400 text-slate-900 font-bold shadow-sm'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
+                  }`}>
+                    <input
+                      type="radio"
+                      name="qrMode"
+                      checked={(form.qrMode || 'PHOTO') === 'PHOTO'}
+                      onChange={() => setForm({ ...form, qrMode: 'PHOTO' })}
+                      className="text-amber-500 focus:ring-amber-400"
+                    />
+                    <span>📸 ប្រើរូបថត QR Code (Photo QR - Recommended)</span>
+                  </label>
+
+                  <label className={`p-2.5 rounded-lg border cursor-pointer flex items-center gap-2 transition ${
+                    form.qrMode === 'DYNAMIC'
+                      ? 'bg-amber-50 border-amber-400 text-slate-900 font-bold shadow-sm'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
+                  }`}>
+                    <input
+                      type="radio"
+                      name="qrMode"
+                      checked={form.qrMode === 'DYNAMIC'}
+                      onChange={() => setForm({ ...form, qrMode: 'DYNAMIC' })}
+                      className="text-amber-500 focus:ring-amber-400"
+                    />
+                    <span>⚡ បង្កើត QR ស្វ័យប្រវត្តិ (Dynamic Amount)</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* QR Payload URL (Optional) */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Custom KHQR Deep Link / Payload (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={form.qrPayload || ''}
+                  onChange={(e) => setForm({ ...form, qrPayload: e.target.value })}
+                  placeholder="https://qr.ababank.com/pay?acc=..."
+                  className="w-full text-xs font-mono border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-amber-400 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Right 1 Col: QR Photo Preview & Upload Controls */}
+            <div className="flex flex-col items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+              <span className="text-xs font-bold text-slate-700 font-khmer">
+                រូបថត QR Code បច្ចុប្បន្ន (Active QR Photo)
+              </span>
+
+              {/* Photo Box */}
+              <div className="relative group p-2 bg-white rounded-xl border-2 border-dashed border-amber-400 shadow-sm flex items-center justify-center">
+                <img
+                  src={form.qrImageUrl || (form.id === 'eternal-logistics' ? './qr_eternal_logistics.png' : './qr_a2m_express.png')}
+                  alt="QR Code Preview"
+                  className="w-32 h-32 object-contain rounded-lg"
+                  onError={(e) => {
+                    // Fallback to artboard photo if local path has trouble
+                    (e.target as HTMLImageElement).src = form.id === 'eternal-logistics' ? './qr_eternal_logistics.png' : './qr_a2m_express.png';
+                  }}
+                />
+              </div>
+
+              {/* File Input for Uploading custom photo */}
+              <input
+                type="file"
+                ref={qrFileInputRef}
+                onChange={handleQrPhotoUpload}
+                accept="image/png, image/jpeg, image/jpg, image/webp"
+                className="hidden"
+              />
+
+              {/* Action Buttons */}
+              <div className="w-full space-y-2">
+                <button
+                  type="button"
+                  onClick={() => qrFileInputRef.current?.click()}
+                  className="w-full py-2 px-3 rounded-lg text-xs font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition shadow flex items-center justify-center gap-1.5"
+                >
+                  <Camera className="w-4 h-4" />
+                  <span>📸 ផ្លាស់ប្តូររូបថតថ្មី (Upload New Photo)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResetQrDefault}
+                  className="w-full py-1.5 px-3 rounded-lg text-[11px] font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition flex items-center justify-center gap-1.5"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
+                  <span>🔄 ប្រើរូបដើមពីប្រព័ន្ធ (Reset Default)</span>
+                </button>
+              </div>
+
+              <p className="text-[10px] text-slate-500 text-center leading-relaxed">
+                ជ្រើសរើសរូបថត QR Code (PNG, JPG) ពីទូរស័ព្ទ ឬកុំព្យូទ័ររបស់អ្នក រូបភាពនឹងបង្ហាញលើវិក្កយបត្រភ្លាមៗ។
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Contact Info & Warehouse Locations */}

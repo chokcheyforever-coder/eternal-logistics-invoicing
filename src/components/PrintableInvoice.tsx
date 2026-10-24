@@ -346,15 +346,23 @@ export const PrintableInvoice: React.FC<PrintableInvoiceProps> = ({ invoice, com
               <span className="text-[9px] font-bold text-slate-500 font-sans">SCAN TO PAY</span>
             </div>
 
-            {/* Live QR Code (Bakong / ABA KHQR) */}
-            <div className="p-1 bg-white rounded border border-slate-200 shadow-sm">
-              <QRCodeSVG 
-                value={qrValue} 
-                size={82} 
-                level="M" 
-                fgColor="#0B2545"
-                bgColor="#FFFFFF"
-              />
+            {/* QR Code (Real KHQR Photo or Live Dynamic KHQR) */}
+            <div className="p-1 bg-white rounded border border-slate-200 shadow-sm flex items-center justify-center">
+              {company.qrImageUrl && company.qrMode !== 'DYNAMIC' ? (
+                <img 
+                  src={company.qrImageUrl} 
+                  alt="KHQR Payment Code" 
+                  className="w-[84px] h-[84px] object-contain rounded"
+                />
+              ) : (
+                <QRCodeSVG 
+                  value={qrValue} 
+                  size={82} 
+                  level="M" 
+                  fgColor="#0B2545"
+                  bgColor="#FFFFFF"
+                />
+              )}
             </div>
 
             {/* Account Details */}

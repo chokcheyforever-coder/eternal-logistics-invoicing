@@ -19,6 +19,8 @@ export const COMPANY_PROFILES: CompanyProfile[] = [
     bankAccountName: 'ETERNAL LOGISTICS by S.P',
     bankAccountNumber: '010 311 321',
     qrPayload: 'https://qr.ababank.com/pay?acc=010311321&name=ETERNAL+LOGISTICS+BY+SP',
+    qrImageUrl: './qr_eternal_logistics.png',
+    qrMode: 'PHOTO',
     notes: [
       'សូមអតិថិជនពិនិត្យចំនួនទំនិញ និងតម្លៃឱ្យបានត្រឹមត្រូវ មុនពេលទទួលទំនិញ។',
       'បន្ទាប់ពីទទួលទំនិញ សូមពិនិត្យស្ថានភាពទំនិញ និងជូនដំណឹងភ្លាមៗប្រសិនបើមានបញ្ហា',
@@ -45,6 +47,8 @@ export const COMPANY_PROFILES: CompanyProfile[] = [
     bankAccountName: 'PRAK SOEUNAMATAK',
     bankAccountNumber: '010 567 756',
     qrPayload: 'https://qr.ababank.com/pay?acc=010567756&name=PRAK+SOEUNAMATAK',
+    qrImageUrl: './qr_a2m_express.png',
+    qrMode: 'PHOTO',
     notes: [
       'សូមអតិថិជនពិនិត្យចំនួនទំនិញ និងតម្លៃឱ្យបានត្រឹមត្រូវ មុនពេលទទួលទំនិញ។',
       'បន្ទាប់ពីទទួលទំនិញ សូមពិនិត្យស្ថានភាពទំនិញ និងជូនដំណឹងភ្លាមៗប្រសិនបើមានបញ្ហា',

@@ -1074,13 +1074,24 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({
 
           {/* Grand Total Bar - Rich Logistics Navy & Luminous Golden Amber */}
           <div className="mt-5 bg-gradient-to-r from-[#071E3D] via-[#0B2545] to-[#134B70] text-white p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl border border-blue-900/80">
-            <div>
-              <span className="text-xs uppercase font-black tracking-wider text-amber-400 block font-sans">
-                GRAND TOTAL / សរុបទឹកប្រាក់ត្រូវទូទាត់
-              </span>
-              <span className="text-xs text-sky-200 font-khmer">
-                គណនី ABA ទទួលប្រាក់: <strong className="text-white font-bold">{activeCompany.bankAccountName}</strong> ({activeCompany.bankAccountNumber})
-              </span>
+            <div className="flex items-center gap-3.5">
+              {activeCompany.qrImageUrl && (
+                <div className="p-1 bg-white rounded-xl shadow-md shrink-0 border border-white/20">
+                  <img
+                    src={activeCompany.qrImageUrl}
+                    alt="ABA QR"
+                    className="w-12 h-12 object-contain rounded-lg"
+                  />
+                </div>
+              )}
+              <div>
+                <span className="text-xs uppercase font-black tracking-wider text-amber-400 block font-sans">
+                  GRAND TOTAL / សរុបទឹកប្រាក់ត្រូវទូទាត់
+                </span>
+                <span className="text-xs text-sky-200 font-khmer">
+                  គណនី ABA: <strong className="text-white font-bold">{activeCompany.bankAccountName}</strong> ({activeCompany.bankAccountNumber})
+                </span>
+              </div>
             </div>
             <div className="text-3xl sm:text-4xl font-black font-mono text-amber-400 drop-shadow">
               ${grandTotal.toFixed(2)}
