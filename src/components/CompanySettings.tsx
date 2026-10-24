@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { CompanyProfile } from '../types';
-import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive } from 'lucide-react';
+import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive, KeyRound } from 'lucide-react';
 
 interface CompanySettingsProps {
   companies: CompanyProfile[];
@@ -8,6 +8,8 @@ interface CompanySettingsProps {
   onAddCompany: (company: CompanyProfile) => void;
   onExportBackup?: () => void;
   onImportBackup?: (data: any) => void;
+  currentPin?: string;
+  onUpdatePin?: (newPin: string) => void;
 }
 
 export const CompanySettings: React.FC<CompanySettingsProps> = ({
@@ -15,10 +17,14 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
   onUpdateCompany,
   onAddCompany,
   onExportBackup,
-  onImportBackup
+  onImportBackup,
+  currentPin = '8899',
+  onUpdatePin
 }) => {
   const [activeCompanyId, setActiveCompanyId] = useState<string>(companies[0]?.id || 'eternal-logistics');
   const [successSaved, setSuccessSaved] = useState(false);
+  const [pinInput, setPinInput] = useState(currentPin);
+  const [pinSaved, setPinSaved] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
@@ -315,6 +321,59 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
                 </button>
               </>
             )}
+          </div>
+        </div>
+
+        {/* Company Access Passcode / PIN Security Card */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h2 className="text-sm font-bold text-slate-900 font-khmer flex items-center gap-2 border-b pb-2">
+            <KeyRound className="w-4 h-4 text-amber-500" />
+            សុវត្ថិភាពលេខកូដសម្ងាត់ / Company Access PIN Lock
+          </h2>
+          <p className="text-xs text-slate-600">
+            Set a 4-to-6 digit passcode required by staff to open the invoicing system on any computer or phone.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="w-48">
+              <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                Company Passcode (PIN)
+              </label>
+              <input
+                type="text"
+                maxLength={6}
+                value={pinInput}
+                onChange={(e) => {
+                  setPinInput(e.target.value.replace(/\D/g, ''));
+                  setPinSaved(false);
+                }}
+                placeholder="e.g. 8899"
+                className="w-full text-center font-mono font-black text-sm tracking-widest border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
+            <div className="pt-5 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  if (pinInput.length >= 4 && onUpdatePin) {
+                    onUpdatePin(pinInput);
+                    setPinSaved(true);
+                    setTimeout(() => setPinSaved(false), 2500);
+                  } else {
+                    alert('Please enter at least 4 digits for your PIN.');
+                  }
+                }}
+                className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#0B2545] hover:bg-blue-900 text-white transition shadow-sm"
+              >
+                Save New PIN
+              </button>
+              {pinSaved && (
+                <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                  <Check className="w-4 h-4" /> PIN Updated!
+                </span>
+              )}
+            </div>
           </div>
         </div>
 

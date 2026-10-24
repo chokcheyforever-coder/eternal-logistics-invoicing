@@ -19,6 +19,7 @@ import { CustomerManager } from './components/CustomerManager';
 import { ContainerManager } from './components/ContainerManager';
 import { CompanySettings } from './components/CompanySettings';
 import { PreviewModal } from './components/PreviewModal';
+import { PinLockScreen } from './components/PinLockScreen';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -28,7 +29,8 @@ import {
   Settings, 
   Menu, 
   X,
-  Printer
+  Printer,
+  Lock
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -58,6 +60,30 @@ export const App: React.FC = () => {
   const [editingInvoice, setEditingInvoice] = useState<Invoice | undefined>(undefined);
   const [previewInvoice, setPreviewInvoice] = useState<Invoice | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Security PIN Lock State
+  const [companyPin, setCompanyPin] = useState<string>(() => {
+    return localStorage.getItem('eternal_company_pin') || '8899';
+  });
+
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    return sessionStorage.getItem('eternal_is_unlocked') === 'true';
+  });
+
+  const handleUnlock = () => {
+    setIsUnlocked(true);
+    sessionStorage.setItem('eternal_is_unlocked', 'true');
+  };
+
+  const handleLock = () => {
+    setIsUnlocked(false);
+    sessionStorage.removeItem('eternal_is_unlocked');
+  };
+
+  const handleUpdatePin = (newPin: string) => {
+    setCompanyPin(newPin);
+    localStorage.setItem('eternal_company_pin', newPin);
+  };
 
   // Sync to local storage
   useEffect(() => {
@@ -193,6 +219,10 @@ export const App: React.FC = () => {
     { id: 'settings', label: 'ការកំណត់ / Settings', icon: Settings },
   ];
 
+  if (!isUnlocked) {
+    return <PinLockScreen correctPin={companyPin} onUnlock={handleUnlock} />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 font-sans">
       {/* Top Main Navigation Bar */}
@@ -250,6 +280,16 @@ export const App: React.FC = () => {
                 </button>
               );
             })}
+
+            {/* Lock Button */}
+            <button
+              onClick={handleLock}
+              className="ml-2 flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-bold text-red-300 hover:text-white hover:bg-red-500/20 border border-red-500/30 transition"
+              title="Lock / Logout"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Lock</span>
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -299,6 +339,16 @@ export const App: React.FC = () => {
                 </button>
               );
             })}
+
+            <button
+              onClick={handleLock}
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-red-300 hover:bg-red-500/20"
+            >
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4" />
+                <span>ចាក់សោ (Lock System)</span>
+              </div>
+            </button>
           </div>
         )}
       </header>
@@ -382,6 +432,8 @@ export const App: React.FC = () => {
             onAddCompany={(newComp) => setCompanies([...companies, newComp])}
             onExportBackup={handleExportBackup}
             onImportBackup={handleImportBackup}
+            currentPin={companyPin}
+            onUpdatePin={handleUpdatePin}
           />
         )}
       </main>
