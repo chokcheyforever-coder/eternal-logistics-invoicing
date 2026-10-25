@@ -97,21 +97,38 @@ export const App: React.FC = () => {
     localStorage.setItem('eternal_company_pin', newPin);
   };
 
-  // Sync to local storage
+  // Sync to local storage with quota protection
   useEffect(() => {
-    localStorage.setItem('eternal_companies', JSON.stringify(companies));
+    try {
+      localStorage.setItem('eternal_companies', JSON.stringify(companies));
+    } catch (e) {
+      console.warn('Storage quota warning for companies', e);
+    }
   }, [companies]);
 
   useEffect(() => {
-    localStorage.setItem('eternal_customers', JSON.stringify(customers));
+    try {
+      localStorage.setItem('eternal_customers', JSON.stringify(customers));
+    } catch (e) {
+      console.warn('Storage quota warning for customers', e);
+    }
   }, [customers]);
 
   useEffect(() => {
-    localStorage.setItem('eternal_invoices', JSON.stringify(invoices));
+    try {
+      localStorage.setItem('eternal_invoices', JSON.stringify(invoices));
+    } catch (e) {
+      console.error('Storage quota exceeded for invoices', e);
+      alert('⚠️ ការព្រមាន: ទំហំផ្ទុកលើ Browser ជិតពេញហើយ! សូមចុច Export Backup JSON ក្នុង Settings ដើម្បីរក្សាទុកក្នុង Google Drive។');
+    }
   }, [invoices]);
 
   useEffect(() => {
-    localStorage.setItem('eternal_containers', JSON.stringify(containers));
+    try {
+      localStorage.setItem('eternal_containers', JSON.stringify(containers));
+    } catch (e) {
+      console.warn('Storage quota warning for containers', e);
+    }
   }, [containers]);
 
   // Invoice Handlers

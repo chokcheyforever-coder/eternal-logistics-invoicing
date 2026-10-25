@@ -34,18 +34,49 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
   const handleQrPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Photo is too large! Please choose an image smaller than 5MB.');
+    if (file.size > 8 * 1024 * 1024) {
+      alert('Photo is too large! Please choose an image smaller than 8MB.');
       return;
     }
+
+    // Auto-compress photo using canvas to optimize browser storage
     const reader = new FileReader();
     reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      setForm((prev) => ({
-        ...prev,
-        qrImageUrl: dataUrl,
-        qrMode: 'PHOTO'
-      }));
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxDim = 400; // Optimal for QR scan and lightweight
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.88);
+          setForm((prev) => ({
+            ...prev,
+            qrImageUrl: compressed,
+            qrMode: 'PHOTO'
+          }));
+        } else {
+          setForm((prev) => ({
+            ...prev,
+            qrImageUrl: event.target?.result as string,
+            qrMode: 'PHOTO'
+          }));
+        }
+      };
+      img.src = event.target?.result as string;
     };
     reader.readAsDataURL(file);
     if (qrFileInputRef.current) qrFileInputRef.current.value = '';
@@ -424,22 +455,40 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
 
         {/* Backup & Restore (Google Drive Sync) Card */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <h2 className="text-sm font-bold text-slate-900 font-khmer flex items-center gap-2 border-b pb-2">
-            <HardDrive className="w-4 h-4 text-emerald-600" />
-            ការបម្រុងទុក និងស្តារទិន្នន័យ / Google Drive Backup & Restore
-          </h2>
+          <div className="flex items-center justify-between border-b pb-2">
+            <h2 className="text-sm font-bold text-slate-900 font-khmer flex items-center gap-2">
+              <HardDrive className="w-4 h-4 text-emerald-600" />
+              <span>ការបម្រុងទុក និងស្តារទិន្នន័យ / Google Drive Backup & Restore</span>
+            </h2>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">
+              ERP MIGRATION READY
+            </span>
+          </div>
+          
           <p className="text-xs text-slate-600">
-            Export all invoices, customers, containers, and brand settings into a single backup JSON file that you can store in your Google Drive or restore on any computer.
+            Export all invoices, customers, containers, and brand settings into a single backup JSON file that you can store in your Google Drive or restore on any computer. When your permanent ERP system is finished in 1-2 months, this data can be imported directly without losing any shipment records.
           </p>
+
+          <div className="p-3 bg-blue-50/70 border border-blue-200/80 rounded-xl text-xs text-blue-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="space-y-0.5">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🛡️</span>
+                <span>ការការពារទិន្នន័យសម្រាប់ 1-2 ខែ (1-2 Months Operational Safety)</span>
+              </span>
+              <p className="text-[11px] text-blue-800">
+                ទិន្នន័យទាំងអស់ត្រូវរក្សាទុកស្វ័យប្រវត្តិក្នង Browser។ សូមចុច Export Backup ម្តងក្នុងមួយសប្តាហ៍ចូល Google Drive។
+              </p>
+            </div>
+          </div>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             {onExportBackup && (
               <button
                 type="button"
                 onClick={onExportBackup}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 stroke-[2.5]" />
                 <span>📥 Export Backup JSON (Save to Google Drive)</span>
               </button>
             )}
