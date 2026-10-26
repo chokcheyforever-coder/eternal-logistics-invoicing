@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { CompanyProfile } from '../types';
-import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive, KeyRound, Camera, RotateCcw, Image as ImageIcon } from 'lucide-react';
+import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive, KeyRound, Camera, RotateCcw, Image as ImageIcon, Trash2 } from 'lucide-react';
 
 interface CompanySettingsProps {
   companies: CompanyProfile[];
@@ -8,6 +8,7 @@ interface CompanySettingsProps {
   onAddCompany: (company: CompanyProfile) => void;
   onExportBackup?: () => void;
   onImportBackup?: (data: any) => void;
+  onClearTransactionData?: () => void;
   currentPin?: string;
   onUpdatePin?: (newPin: string) => void;
 }
@@ -18,6 +19,7 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
   onAddCompany,
   onExportBackup,
   onImportBackup,
+  onClearTransactionData,
   currentPin = '8899',
   onUpdatePin
 }) => {
@@ -514,6 +516,39 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
             )}
           </div>
         </div>
+
+        {/* Data Cleanup / Reset Section */}
+        {onClearTransactionData && (
+          <div className="bg-red-50/70 p-6 rounded-2xl border border-red-200/80 shadow-sm space-y-3">
+            <div className="flex items-center justify-between border-b border-red-200/70 pb-2">
+              <h2 className="text-sm font-bold text-red-950 font-khmer flex items-center gap-2">
+                <Trash2 className="w-4 h-4 text-red-600" />
+                <span>ជម្រះទិន្នន័យប្រតិបត្តិការ / Clear Transaction Records</span>
+              </h2>
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200 font-mono">
+                DATA RESET
+              </span>
+            </div>
+            
+            <p className="text-xs text-slate-700">
+              លុបទិន្នន័យប្រតិបត្តិការទាំងអស់រួមមាន៖ វិក្កយបត្រ (Invoices), ទូកុងតឺន័រ (Containers), និងបញ្ជីអតិថិជន (Customers)។ 
+              ព័ត៌មានក្រុមហ៊ុន និងគណនី ABA Bank នឹងត្រូវបានរក្សាទុកដូចដើម។
+              <br />
+              <span className="text-slate-500 text-[11px]">Wipes all invoice, container, and customer records from this browser while keeping company branding and ABA settings intact.</span>
+            </p>
+
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={onClearTransactionData}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white transition shadow-sm hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <Trash2 className="w-4 h-4 stroke-[2.5]" />
+                <span>🗑️ ជម្រះទិន្នន័យទាំងអស់ (Clear All Records)</span>
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Company Access Passcode / PIN Security Card */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">

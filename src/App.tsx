@@ -54,17 +54,59 @@ export const App: React.FC = () => {
 
   const [customers, setCustomers] = useState<Customer[]>(() => {
     const saved = localStorage.getItem('eternal_customers');
-    return saved ? JSON.parse(saved) : INITIAL_CUSTOMERS;
+    if (!saved) return INITIAL_CUSTOMERS;
+    try {
+      const parsed: Customer[] = JSON.parse(saved);
+      // Clean out legacy mock customers if untouched
+      const isLegacyMock = Array.isArray(parsed) && 
+        parsed.length <= 4 && 
+        parsed.every(c => ['cust-1', 'cust-2', 'cust-3', 'cust-4'].includes(c.id));
+      if (isLegacyMock && !localStorage.getItem('eternal_keep_mock')) {
+        localStorage.setItem('eternal_customers', JSON.stringify([]));
+        return [];
+      }
+      return parsed;
+    } catch {
+      return INITIAL_CUSTOMERS;
+    }
   });
 
   const [invoices, setInvoices] = useState<Invoice[]>(() => {
     const saved = localStorage.getItem('eternal_invoices');
-    return saved ? JSON.parse(saved) : INITIAL_INVOICES;
+    if (!saved) return INITIAL_INVOICES;
+    try {
+      const parsed: Invoice[] = JSON.parse(saved);
+      // Clean out legacy mock invoices if untouched
+      const isLegacyMock = Array.isArray(parsed) && 
+        parsed.length <= 2 && 
+        parsed.every(i => ['inv-1', 'inv-2'].includes(i.id));
+      if (isLegacyMock && !localStorage.getItem('eternal_keep_mock')) {
+        localStorage.setItem('eternal_invoices', JSON.stringify([]));
+        return [];
+      }
+      return parsed;
+    } catch {
+      return INITIAL_INVOICES;
+    }
   });
 
   const [containers, setContainers] = useState<ContainerManifest[]>(() => {
     const saved = localStorage.getItem('eternal_containers');
-    return saved ? JSON.parse(saved) : INITIAL_CONTAINERS;
+    if (!saved) return INITIAL_CONTAINERS;
+    try {
+      const parsed: ContainerManifest[] = JSON.parse(saved);
+      // Clean out legacy mock containers if untouched
+      const isLegacyMock = Array.isArray(parsed) && 
+        parsed.length <= 2 && 
+        parsed.every(c => ['cont-1', 'cont-2'].includes(c.id));
+      if (isLegacyMock && !localStorage.getItem('eternal_keep_mock')) {
+        localStorage.setItem('eternal_containers', JSON.stringify([]));
+        return [];
+      }
+      return parsed;
+    } catch {
+      return INITIAL_CONTAINERS;
+    }
   });
 
   // Navigation state
@@ -231,6 +273,28 @@ export const App: React.FC = () => {
     if (data.customers && Array.isArray(data.customers)) setCustomers(data.customers);
     if (data.invoices && Array.isArray(data.invoices)) setInvoices(data.invoices);
     if (data.containers && Array.isArray(data.containers)) setContainers(data.containers);
+  };
+
+  // Clear All Transaction Data (Invoices, Containers, Customers)
+  const handleClearTransactionData = () => {
+    const confirmed = window.confirm(
+      '⚠️ តើអ្នកពិតជាចង់លុបទិន្នន័យប្រតិបត្តិការទាំងអស់មែនទេ?\n\n' +
+      '• វិក្កយបត្រទាំងអស់ (All Invoices)\n' +
+      '• ទូកុងតឺន័រទាំងអស់ (All Containers)\n' +
+      '• បញ្ជីអតិថិជនទាំងអស់ (All Customers)\n\n' +
+      'ព័ត៌មានក្រុមហ៊ុន និងគណនី ABA Bank នឹងត្រូវបានរក្សាទុកដូចដើម។\n' +
+      'សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ!'
+    );
+
+    if (confirmed) {
+      setInvoices([]);
+      setContainers([]);
+      setCustomers([]);
+      localStorage.setItem('eternal_invoices', JSON.stringify([]));
+      localStorage.setItem('eternal_containers', JSON.stringify([]));
+      localStorage.setItem('eternal_customers', JSON.stringify([]));
+      alert('✓ ទិន្នន័យប្រតិបត្តិការទាំងអស់ត្រូវបានជម្រះរួចរាល់! All transaction records cleared.');
+    }
   };
 
   // Company Handlers
@@ -463,6 +527,7 @@ export const App: React.FC = () => {
             onAddCompany={(newComp) => setCompanies([...companies, newComp])}
             onExportBackup={handleExportBackup}
             onImportBackup={handleImportBackup}
+            onClearTransactionData={handleClearTransactionData}
             currentPin={companyPin}
             onUpdatePin={handleUpdatePin}
           />

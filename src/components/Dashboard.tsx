@@ -10,7 +10,8 @@ import {
   Clock, 
   Plus, 
   Printer, 
-  ArrowUpRight 
+  ArrowUpRight,
+  FileText 
 } from 'lucide-react';
 
 interface DashboardProps {
@@ -201,8 +202,24 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {invoices.slice(0, 5).map((inv) => (
-                  <tr key={inv.id} className="hover:bg-slate-50/80 transition">
+                {invoices.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="py-10 text-center text-slate-400">
+                      <div className="flex flex-col items-center justify-center gap-1.5">
+                        <FileText className="w-7 h-7 text-slate-300 stroke-[1.5]" />
+                        <span className="text-xs font-semibold text-slate-500 font-khmer">មិនទាន់មានវិក្កយបត្រនៅឡើយទេ / No invoices issued yet</span>
+                        <button
+                          onClick={onNewInvoice}
+                          className="mt-1 text-xs font-bold text-blue-700 hover:text-blue-900 underline"
+                        >
+                          + ចេញវិក្កយបត្រដំបូង (Create First Invoice)
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  invoices.slice(0, 5).map((inv) => (
+                    <tr key={inv.id} className="hover:bg-slate-50/80 transition">
                     <td className="py-2.5 px-3">
                       <div className="font-mono font-bold text-blue-900">{inv.invoiceNo}</div>
                       <div className="text-[10px] text-slate-400 font-mono">{inv.date}</div>
@@ -238,7 +255,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       </button>
                     </td>
                   </tr>
-                ))}
+                )))}
               </tbody>
             </table>
           </div>

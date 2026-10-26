@@ -91,7 +91,23 @@ export const ContainerManager: React.FC<ContainerManagerProps> = ({
 
       {/* Containers List */}
       <div className="space-y-4">
-        {containers.map((cont) => {
+        {containers.length === 0 ? (
+          <div className="py-12 px-4 text-center bg-white rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <Truck className="w-10 h-10 text-slate-300 mx-auto" />
+            <div>
+              <p className="text-sm font-bold text-slate-700 font-khmer">មិនទាន់មានទិន្នន័យទូកុងតឺន័រនៅឡើយទេ / No containers found</p>
+              <p className="text-xs text-slate-400 mt-1">បង្កើតទូកុងតឺន័រថ្មីដើម្បីតាមដានទំនិញដឹកជញ្ជូនពីប្រទេសចិនមកកម្ពុជា</p>
+            </div>
+            <button
+              onClick={() => setModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#0B2545] text-white hover:bg-blue-900 transition shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ បង្កើតទូកុងតឺន័រថ្មី (Create Container)</span>
+            </button>
+          </div>
+        ) : (
+          containers.map((cont) => {
           // Find linked invoices
           const linkedInvoices = invoices.filter(
             inv => inv.shipment.cabinetNo === cont.cabinetNo || cont.invoiceIds.includes(inv.id)
@@ -198,7 +214,7 @@ export const ContainerManager: React.FC<ContainerManagerProps> = ({
               )}
             </div>
           );
-        })}
+        }))}
       </div>
 
       {/* Modal: New Container */}

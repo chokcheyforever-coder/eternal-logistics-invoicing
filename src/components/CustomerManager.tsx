@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Customer, Invoice } from '../types';
-import { Search, Plus, Edit, Trash2, Phone, MapPin, Send, User } from 'lucide-react';
+import { Search, Plus, Edit, Trash2, Phone, MapPin, Send, User, Users } from 'lucide-react';
 
 interface CustomerManagerProps {
   customers: Customer[];
@@ -124,7 +124,23 @@ export const CustomerManager: React.FC<CustomerManagerProps> = ({
 
       {/* Customer Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredCustomers.map((cust) => {
+        {filteredCustomers.length === 0 ? (
+          <div className="col-span-full py-12 px-4 text-center bg-white rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <Users className="w-10 h-10 text-slate-300 mx-auto" />
+            <div>
+              <p className="text-sm font-bold text-slate-700 font-khmer">មិនទាន់មានទិន្នន័យអតិថិជននៅឡើយទេ / No customers found</p>
+              <p className="text-xs text-slate-400 mt-1">ចុចប៊ូតុងខាងក្រោមដើម្បីបន្ថែមអតិថិជនថ្មីចូលក្នុងប្រព័ន្ធ</p>
+            </div>
+            <button
+              onClick={() => handleOpenAdd()}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#0B2545] text-white hover:bg-blue-900 transition shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ បន្ថែមអតិថិជនថ្មី (Add Customer)</span>
+            </button>
+          </div>
+        ) : (
+          filteredCustomers.map((cust) => {
           const customerInvoices = invoices.filter(inv => inv.customer.id === cust.id || inv.customer.customerId === cust.customerId);
           const totalSpent = customerInvoices.reduce((sum, inv) => sum + inv.grandTotal, 0);
           const totalCbm = customerInvoices.reduce((sum, inv) => sum + inv.totalCbm, 0);
@@ -209,7 +225,7 @@ export const CustomerManager: React.FC<CustomerManagerProps> = ({
               </div>
             </div>
           );
-        })}
+        }))}
       </div>
 
       {/* Modal: Add/Edit Customer */}
