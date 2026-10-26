@@ -25,7 +25,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
   };
 
   const handleCopySummary = () => {
-    const summary = `📦 ETERNAL LOGISTICS INVOICE
+    const summary = `📦 ${company.name || 'LOGISTICS'} INVOICE
 №: ${invoice.invoiceNo}
 Customer: ${invoice.customer.name} (${invoice.customer.customerId})
 Container: ${invoice.shipment.cabinetNo}

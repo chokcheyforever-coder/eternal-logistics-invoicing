@@ -3,7 +3,7 @@ import { CompanyProfile, Customer, Invoice, ContainerManifest } from '../types';
 export const COMPANY_PROFILES: CompanyProfile[] = [
   {
     id: 'eternal-logistics',
-    name: 'ENTERNAL LOGISTICS',
+    name: 'ETERNAL LOGISTICS',
     khmerName: 'អុីថឺណល ឡូជីស្ទីក',
     tagline: 'YOUR CARGO. OUR RESPONSIBILITY',
     routeTitle: 'CHINA - TO - CAMBODIA',

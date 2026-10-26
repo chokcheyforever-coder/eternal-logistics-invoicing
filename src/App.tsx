@@ -42,6 +42,8 @@ export const App: React.FC = () => {
         const parsed: CompanyProfile[] = JSON.parse(saved);
         return parsed.map((c) => ({
           ...c,
+          // Correct legacy initial typo "ENTERNAL" if user didn't specifically set something else
+          name: c.name === 'ENTERNAL LOGISTICS' ? 'ETERNAL LOGISTICS' : c.name,
           qrImageUrl: c.qrImageUrl || (c.id === 'eternal-logistics' ? './qr_eternal_logistics.png' : './qr_a2m_express.png'),
           qrMode: c.qrMode || 'PHOTO'
         }));
@@ -51,6 +53,18 @@ export const App: React.FC = () => {
     }
     return COMPANY_PROFILES;
   });
+
+  // Active selected company profile for top bar and workspace
+  const [activeCompanyId, setActiveCompanyId] = useState<string>(() => {
+    return localStorage.getItem('eternal_active_company_id') || 'eternal-logistics';
+  });
+
+  const activeCompany = companies.find((c) => c.id === activeCompanyId) || companies[0] || COMPANY_PROFILES[0];
+
+  const handleSelectActiveCompany = (id: string) => {
+    setActiveCompanyId(id);
+    localStorage.setItem('eternal_active_company_id', id);
+  };
 
   const [customers, setCustomers] = useState<Customer[]>(() => {
     const saved = localStorage.getItem('eternal_customers');
@@ -313,7 +327,14 @@ export const App: React.FC = () => {
   ];
 
   if (!isUnlocked) {
-    return <PinLockScreen correctPin={companyPin} onUnlock={handleUnlock} />;
+    return (
+      <PinLockScreen 
+        correctPin={companyPin} 
+        onUnlock={handleUnlock} 
+        companyName={activeCompany?.name}
+        khmerName={activeCompany?.khmerName}
+      />
+    );
   }
 
   return (
@@ -322,21 +343,41 @@ export const App: React.FC = () => {
       <header className="no-print bg-gradient-to-r from-[#071E3D] via-[#0B2545] to-[#134B70] text-white border-b border-blue-900/80 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* Logo & System Brand */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black flex items-center justify-center text-sm shadow-md ring-2 ring-amber-300/40">
-              EL
+          <div className="flex items-center gap-3">
+            <div 
+              onClick={() => setActiveTab('dashboard')}
+              className="cursor-pointer w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black flex items-center justify-center text-sm shadow-md ring-2 ring-amber-300/40 hover:scale-105 transition"
+            >
+              {activeCompany?.logoText?.slice(0, 3) || activeCompany?.name?.slice(0, 2).toUpperCase() || 'EL'}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold tracking-wide text-sm sm:text-base text-white">
-                  ENTERNAL LOGISTICS
+                <span 
+                  onClick={() => setActiveTab('dashboard')}
+                  className="cursor-pointer font-extrabold tracking-wide text-sm sm:text-base text-white hover:text-amber-300 transition"
+                >
+                  {activeCompany?.name || 'ETERNAL LOGISTICS'}
                 </span>
                 <span className="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-2 py-0.5 rounded-full border border-amber-400/40 font-mono hidden sm:inline-block">
-                  CHINA ➔ CAMBODIA
+                  {activeCompany?.routeTitle || 'CHINA ➔ CAMBODIA'}
                 </span>
+                {companies.length > 1 && (
+                  <select
+                    value={activeCompany.id}
+                    onChange={(e) => handleSelectActiveCompany(e.target.value)}
+                    className="hidden lg:inline-block text-[10px] font-bold bg-white/10 hover:bg-white/20 text-sky-200 border border-white/20 rounded-lg px-2 py-0.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 transition"
+                    title="Switch Active Logistics Brand"
+                  >
+                    {companies.map((c) => (
+                      <option key={c.id} value={c.id} className="bg-slate-900 text-white font-sans text-xs">
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
               <p className="text-[10px] text-sky-200 font-khmer">
-                ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ និងទំនិញដឹកជញ្ជូន
+                {activeCompany?.khmerName ? `${activeCompany.khmerName} • ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ` : 'ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ និងទំនិញដឹកជញ្ជូន'}
               </p>
             </div>
           </div>
@@ -530,6 +571,8 @@ export const App: React.FC = () => {
             onClearTransactionData={handleClearTransactionData}
             currentPin={companyPin}
             onUpdatePin={handleUpdatePin}
+            activeCompanyId={activeCompanyId}
+            onSelectActiveCompany={handleSelectActiveCompany}
           />
         )}
       </main>
@@ -547,7 +590,7 @@ export const App: React.FC = () => {
       {/* Footer */}
       <footer className="no-print bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p>© 2026 ENTERNAL LOGISTICS & A2M EXPRESS. Invoicing & Freight Forwarding System.</p>
+          <p>© 2026 {activeCompany?.name || 'ETERNAL LOGISTICS'} & A2M EXPRESS. Invoicing & Freight Forwarding System.</p>
           <div className="flex items-center gap-4 text-slate-400 text-[11px]">
             <span>China Warehouses: Guangzhou • Foshan • Yiwu</span>
             <span>•</span>

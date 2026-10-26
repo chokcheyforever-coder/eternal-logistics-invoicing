@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { CompanyProfile } from '../types';
 import { Building2, Save, Plus, Check, Phone, Mail, Send, QrCode, Download, Upload, HardDrive, KeyRound, Camera, RotateCcw, Image as ImageIcon, Trash2 } from 'lucide-react';
 
@@ -11,6 +11,8 @@ interface CompanySettingsProps {
   onClearTransactionData?: () => void;
   currentPin?: string;
   onUpdatePin?: (newPin: string) => void;
+  activeCompanyId?: string;
+  onSelectActiveCompany?: (id: string) => void;
 }
 
 export const CompanySettings: React.FC<CompanySettingsProps> = ({
@@ -21,9 +23,11 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
   onImportBackup,
   onClearTransactionData,
   currentPin = '8899',
-  onUpdatePin
+  onUpdatePin,
+  activeCompanyId: propActiveCompanyId,
+  onSelectActiveCompany
 }) => {
-  const [activeCompanyId, setActiveCompanyId] = useState<string>(companies[0]?.id || 'eternal-logistics');
+  const [activeCompanyId, setActiveCompanyId] = useState<string>(propActiveCompanyId || companies[0]?.id || 'eternal-logistics');
   const [successSaved, setSuccessSaved] = useState(false);
   const [pinInput, setPinInput] = useState(currentPin);
   const [pinSaved, setPinSaved] = useState(false);
@@ -32,6 +36,14 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
 
   const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
   const [form, setForm] = useState<CompanyProfile>(activeCompany);
+
+  useEffect(() => {
+    if (propActiveCompanyId && propActiveCompanyId !== activeCompanyId) {
+      setActiveCompanyId(propActiveCompanyId);
+      const selected = companies.find(c => c.id === propActiveCompanyId);
+      if (selected) setForm(selected);
+    }
+  }, [propActiveCompanyId, companies]);
 
   const handleQrPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -95,6 +107,9 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
 
   const handleSelectCompany = (id: string) => {
     setActiveCompanyId(id);
+    if (onSelectActiveCompany) {
+      onSelectActiveCompany(id);
+    }
     const selected = companies.find(c => c.id === id);
     if (selected) {
       setForm(selected);
@@ -104,6 +119,9 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     onUpdateCompany(form);
+    if (onSelectActiveCompany) {
+      onSelectActiveCompany(form.id);
+    }
     setSuccessSaved(true);
     setTimeout(() => setSuccessSaved(false), 2500);
   };

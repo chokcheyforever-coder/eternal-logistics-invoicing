@@ -4,9 +4,16 @@ import { Lock, KeyRound, ShieldAlert, CheckCircle2, ArrowRight } from 'lucide-re
 interface PinLockScreenProps {
   correctPin: string;
   onUnlock: () => void;
+  companyName?: string;
+  khmerName?: string;
 }
 
-export const PinLockScreen: React.FC<PinLockScreenProps> = ({ correctPin, onUnlock }) => {
+export const PinLockScreen: React.FC<PinLockScreenProps> = ({ 
+  correctPin, 
+  onUnlock,
+  companyName = 'ETERNAL LOGISTICS',
+  khmerName
+}) => {
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
 
@@ -45,10 +52,10 @@ export const PinLockScreen: React.FC<PinLockScreenProps> = ({ correctPin, onUnlo
             <Lock className="w-7 h-7 stroke-[2.5]" />
           </div>
           <h1 className="text-xl font-black text-slate-900 tracking-wide">
-            ENTERNAL LOGISTICS
+            {companyName}
           </h1>
           <p className="text-xs text-slate-500 font-khmer">
-            ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ • សូមបញ្ចូលលេខសម្ងាត់ (PIN)
+            {khmerName ? `${khmerName} • ` : ''}ប្រព័ន្ធគ្រប់គ្រងវិក្កយបត្រ • សូមបញ្ចូលលេខសម្ងាត់ (PIN)
           </p>
         </div>
 
